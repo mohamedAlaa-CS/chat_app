@@ -59,49 +59,19 @@ class LoginScreen extends StatelessWidget {
             defaultTextField(
                 hitText: 'Password', controller: passwordController),
             const SizedBox(height: 30),
-            SizedBox(
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () async {
-                  try {
-                    final credential = await FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text);
-                    print('Done ya man');
+           customBottom(title: 'Login', onPressed: ()async{
+                 try {
+                    await loginUser(emailController, passwordController);
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'user-not-found') {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'No user found for that email.',
-                          ),
-                        ),
-                      );
+                      showSnackBar(context,title:'No user found for that email.' );
                       print('No user found for that email.');
                     } else if (e.code == 'wrong-password') {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Wrong password provided for that user.',
-                          ),
-                        ),
-                      );
+                    showSnackBar(context, title:'Wrong password provided for that user.' );
                       print('Wrong password provided for that user.');
                     }
                   }
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+           }),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -123,5 +93,23 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showSnackBar(BuildContext context,{required String title}) {
+         ScaffoldMessenger.of(context).showSnackBar(
+       SnackBar(
+        content: Text(
+          title,
+        ),
+      ),
+    );
+  }
+
+  Future<void> loginUser(TextEditingController emailController, TextEditingController passwordController) async {
+         final credential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text);
+    print('Done ya man');
   }
 }
