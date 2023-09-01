@@ -1,14 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:social_app/screens/sign_up/sign_up.dart';
 
 import '../../shared/components/component.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const String routeName = 'login';
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     var mediaQuriy = MediaQuery.of(context).size;
@@ -16,90 +23,99 @@ class LoginScreen extends StatelessWidget {
     var passwordController = TextEditingController();
     var formKey = GlobalKey<FormState>();
 
-    return Scaffold(
-      backgroundColor: const Color(0xff2B475E),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(
-                flex: 2,
-              ),
-              Center(
-                child: Container(
-                  width: mediaQuriy.width / 2.7,
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(40)),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: mediaQuriy.width / 3,
-                      height: mediaQuriy.height / 6,
+    return ModalProgressHUD(
+      inAsyncCall: isLoading,
+      child: Scaffold(
+        backgroundColor: const Color(0xff2B475E),
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Spacer(
+                  flex: 2,
+                ),
+                Center(
+                  child: Container(
+                    width: mediaQuriy.width / 2.7,
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(40)),
+                    child: Center(
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        width: mediaQuriy.width / 3,
+                        height: mediaQuriy.height / 6,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "Scholar Chat",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.aBeeZee(fontSize: 32, color: Colors.white),
-              ),
-              const Spacer(),
-              const SizedBox(height: 20),
-              Text(
-                "Sigin In",
-                style: GoogleFonts.aBeeZee(fontSize: 32, color: Colors.white),
-              ),
-              const SizedBox(height: 20),
-              defaultTextField(hitText: 'Email', controller: emailController),
-              const SizedBox(height: 15),
-              defaultTextField(
-                  hitText: 'Password', controller: passwordController),
-              const SizedBox(height: 30),
-              customBottom(
-                  title: 'Login',
-                  onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      try {
-                        await loginUser(emailController, passwordController);
-                      } on FirebaseAuthException catch (e) {
-                        if (e.code == 'user-not-found') {
-                          showSnackBar(context,
-                              title: 'No user found for that email.');
-                          print('No user found for that email.');
-                        } else if (e.code == 'wrong-password') {
-                          showSnackBar(context,
-                              title: 'Wrong password provided for that user.');
-                          print('Wrong password provided for that user.');
+                const SizedBox(height: 10),
+                Text(
+                  "Scholar Chat",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.aBeeZee(fontSize: 32, color: Colors.white),
+                ),
+                const Spacer(),
+                const SizedBox(height: 20),
+                Text(
+                  "Sigin In",
+                  style: GoogleFonts.aBeeZee(fontSize: 32, color: Colors.white),
+                ),
+                const SizedBox(height: 20),
+                defaultTextField(hitText: 'Email', controller: emailController),
+                const SizedBox(height: 15),
+                defaultTextField(
+                    hitText: 'Password', controller: passwordController),
+                const SizedBox(height: 30),
+                customBottom(
+                    title: 'Login',
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        isLoading = true;
+                        setState(() {});
+                        try {
+                          await loginUser(emailController, passwordController);
+                          // ignore: use_build_context_synchronously
+                          showSnackBar(context, title: 'Done ya man');
+                        } on FirebaseAuthException catch (e) {
+                          if (e.code == 'user-not-found') {
+                            showSnackBar(context,
+                                title: 'No user found for that email.');
+                            print('No user found for that email.');
+                          } else if (e.code == 'wrong-password') {
+                            showSnackBar(context,
+                                title:
+                                    'Wrong password provided for that user.');
+                            print('Wrong password provided for that user.');
+                          }
                         }
+                        isLoading = false;
+                        setState(() {});
                       }
-                      showSnackBar(context, title: 'Done ya man');
-                    }
-                  }),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "dont't have n account ",
-                    style: TextStyle(color: Colors.white, fontSize: 17),
-                  ),
-                  customTextBottom(
-                      onPressed: () {
-                        Navigator.pushNamed(context, SignUp.routeName);
-                      },
-                      title: 'Register'),
-                ],
-              ),
-              const Spacer(
-                flex: 3,
-              ),
-            ],
+                    }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "dont't have n account ",
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                    ),
+                    customTextBottom(
+                        onPressed: () {
+                          Navigator.pushNamed(context, SignUp.routeName);
+                        },
+                        title: 'Register'),
+                  ],
+                ),
+                const Spacer(
+                  flex: 3,
+                ),
+              ],
+            ),
           ),
         ),
       ),
