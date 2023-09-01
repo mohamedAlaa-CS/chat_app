@@ -82,8 +82,10 @@ class _SignUpState extends State<SignUp> {
                         try {
                           await registerUser(
                               emailController, passwordController);
+
                           // ignore: use_build_context_synchronously
-                          showSnackBar(context, text: 'success');
+                          Navigator.pushNamed(context, LoginScreen.routeName);
+                          print('succes');
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'weak-password') {
                             showSnackBar(context,

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:social_app/screens/chat_screen/chat_screen.dart';
 import 'package:social_app/screens/sign_up/sign_up.dart';
 import 'firebase_options.dart';
 import 'screens/login_screen/login.dart';
@@ -46,7 +47,8 @@ class _MyAppState extends State<MyApp> {
     initialRoute: LoginScreen.routeName,
     routes: {
       LoginScreen.routeName :(context) => const LoginScreen(),
-      SignUp.routeName:(context) => SignUp()
+      SignUp.routeName:(context) => SignUp(),
+      ChatScreeen.routeName:(context) => ChatScreeen()
     },
     );
   }

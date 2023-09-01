@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:social_app/screens/chat_screen/chat_screen.dart';
 import 'package:social_app/screens/sign_up/sign_up.dart';
 
 import '../../shared/components/component.dart';
@@ -79,8 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         setState(() {});
                         try {
                           await loginUser(emailController, passwordController);
+
                           // ignore: use_build_context_synchronously
-                          showSnackBar(context, title: 'Done ya man');
+                          Navigator.pushNamed(context, ChatScreeen.routeName);
+                          print('Done ya man');
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'user-not-found') {
                             showSnackBar(context,
