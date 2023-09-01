@@ -21,6 +21,7 @@ class SignUp extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            
             const Spacer(
               flex: 2,
             ),
