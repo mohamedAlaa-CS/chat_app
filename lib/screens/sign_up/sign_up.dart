@@ -57,47 +57,21 @@ class SignUp extends StatelessWidget {
             defaultTextField(
                 hitText: 'Password', controller: passwordController),
             const SizedBox(height: 30),
-            SizedBox(
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () async {
-                  try {
-                    final credential = await FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
-                      email: emailController.text,
-                      password: passwordController.text,
-                    );
+           customBottom(title: 'Register', onPressed: ()async{
+              try {
+                    await registerUser(emailController, passwordController);
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text(
-                        'The password provided is too weak.',
-                      ),),);
+                      showSnackBar( context,text:'The password provided is too weak.' );
                       print('The password provided is too weak.');
                     } else if (e.code == 'email-already-in-use') {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text(
-                        'The account already exists for that email.',
-                      ),
-                      ),
-                      );
+                     showSnackBar(context, text:'The account already exists for that email.');
                       print('The account already exists for that email.');
                     }
                   } catch (e) {
                     print(e);
                   }
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                child: const Text(
-                  'Register',
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
+           }),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -118,6 +92,21 @@ class SignUp extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void showSnackBar( BuildContext context,{required String text}) {
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+        content: Text(
+      text,
+    ),),);
+  }
+
+  Future<void> registerUser(TextEditingController emailController, TextEditingController passwordController) async {
+       final credential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
     );
   }
 }

@@ -40,3 +40,20 @@ Widget customTextBottom({
     ),
   );
 }
+Widget customBottom ({required String title,required VoidCallback onPressed}){
+  return SizedBox(
+              height: 50,
+              child: ElevatedButton(
+                onPressed: onPressed,
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                child:  Text(
+                  title,
+                  style:const TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+            );
+}
