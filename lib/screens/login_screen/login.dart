@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:social_app/screens/chat_screen/chat_screen.dart';
 import 'package:social_app/screens/sign_up/sign_up.dart';
+import 'package:social_app/shared/constants/constants.dart';
 
 import '../../shared/components/component.dart';
 
@@ -27,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return ModalProgressHUD(
       inAsyncCall: isLoading,
       child: Scaffold(
-        backgroundColor: const Color(0xff2B475E),
+        backgroundColor: kPrimaryColor,
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: Form(

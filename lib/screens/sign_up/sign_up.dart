@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:social_app/screens/login_screen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:social_app/shared/constants/constants.dart';
 import '../../shared/components/component.dart';
 
 class SignUp extends StatefulWidget {
@@ -28,7 +29,7 @@ class _SignUpState extends State<SignUp> {
     return ModalProgressHUD(
       inAsyncCall: isLoading,
       child: Scaffold(
-        backgroundColor: const Color(0xff2B475E),
+        backgroundColor: kPrimaryColor,
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: Form(
