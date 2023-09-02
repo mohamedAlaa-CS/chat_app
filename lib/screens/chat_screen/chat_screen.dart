@@ -17,13 +17,52 @@ class ChatScreeen extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          Image.asset(kLogo,height: 35,),
-         const  SizedBox(width: 6,),
-          const Text('Chat')
-        ],),
+            Image.asset(
+              kLogo,
+              height: 35,
+            ),
+            const SizedBox(
+              width: 6,
+            ),
+            const Text('Chat')
+          ],
+        ),
       ),
-      body: ListView.builder(itemBuilder: (context, index)=>ChatBuble()),
+      body: Column(
+        children: [
+          Expanded(
+            child:
+                ListView.builder(itemBuilder: (context, index) => ChatBuble()),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Send Message',
+                suffixIcon: const Icon(
+                  Icons.send,
+                  color: kPrimaryColor,
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(
+                      color: kPrimaryColor,
+                    )),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(
+                      color: kPrimaryColor,
+                    )),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(
+                      color: kPrimaryColor,
+                    )),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
-    
   }
 }
