@@ -25,6 +25,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
     void initState() {
     FirebaseAuth.instance
   .authStateChanges()
@@ -36,6 +37,7 @@ class _MyAppState extends State<MyApp> {
       print(user);
     }
   });
+
     super.initState();
   }
   // This widget is the root of your application.

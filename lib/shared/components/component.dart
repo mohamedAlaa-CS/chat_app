@@ -8,6 +8,7 @@ Widget defaultTextField(
         return 'field is required';
       }
     },
+    //keyboardType: TextInputType.text,
     controller: controller,
     style: const TextStyle(
         color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
