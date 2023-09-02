@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         backgroundColor: kPrimaryColor,
         body: Padding(
-          padding:  EdgeInsets.only(top: 10,left: 10,right: 10),
+          padding:   EdgeInsets.only(top: mediaQuriy.height/16,left: 10,right: 10,bottom: 10),
           child: Form(
             key: formKey,
             child: ListView(
@@ -55,14 +55,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+               const  SizedBox(height: 10),
                 Text(
                   "Scholar Chat",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.aBeeZee(fontSize: 32, color: Colors.white),
                 ),
                
-                const SizedBox(height: 20),
+                 SizedBox(height: mediaQuriy.height/10),
                 Text(
                   "Sigin In",
                   style: GoogleFonts.aBeeZee(fontSize: 32, color: Colors.white),

@@ -16,6 +16,10 @@ Widget defaultTextField(
       focusColor: Colors.white,
       hintText: hitText,
       hintStyle: const TextStyle(color: Colors.white),
+      border:OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Colors.white),
+      ) ,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: const BorderSide(color: Colors.white),
@@ -28,9 +32,10 @@ Widget defaultTextField(
           fontSize: 20, color: Colors.deepOrange, fontWeight: FontWeight.bold),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: Colors.yellowAccent),
+        borderSide: const BorderSide(color: Colors.red),
       ),
     ),
+    
   );
 }
 
