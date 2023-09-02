@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:social_app/shared/constants/constants.dart';
 
+import 'widget/chat_bubble.dart';
+
 class ChatScreeen extends StatelessWidget {
   static const String routeName = 'chat_screen';
   const ChatScreeen({super.key});
@@ -16,10 +18,11 @@ class ChatScreeen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
           Image.asset(kLogo,height: 35,),
-          SizedBox(width: 6,),
-          Text('Chat')
+         const  SizedBox(width: 6,),
+          const Text('Chat')
         ],),
       ),
+      body: ListView.builder(itemBuilder: (context, index)=>ChatBuble()),
     );
     
   }
