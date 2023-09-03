@@ -19,12 +19,11 @@ class ChatBuble extends StatelessWidget {
         padding:
             const EdgeInsets.only(left: 16, top: 32, bottom: 32, right: 32),
         decoration: const BoxDecoration(
-          color: kPrimaryColor,
-          borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(32),
-              topLeft: Radius.circular(32),
-              topRight: Radius.circular(32)),
-        ),
+            color: kPrimaryColor,
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(32),
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32)),),
         child: Text(
           messageModel.message!,
           style: const TextStyle(

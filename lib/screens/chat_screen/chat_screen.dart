@@ -9,72 +9,81 @@ import 'widget/text_field.dart';
 
 class ChatScreeen extends StatelessWidget {
   static const String routeName = 'chat_screen';
+  final ScrollController _controller = ScrollController();
 
-  const ChatScreeen({super.key});
+  ChatScreeen({super.key});
 
   @override
   Widget build(BuildContext context) {
     var controller = TextEditingController();
 
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        backgroundColor: kPrimaryColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              kLogo,
-              height: 35,
-            ),
-            const SizedBox(
-              width: 6,
-            ),
-            const Text('Chat')
-          ],
-        ),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                // ignore: use_build_context_synchronously
-                Navigator.pushNamed(context, LoginScreen.routeName);
-              },
-              icon: const Icon(Icons.logout))
-        ],
-      ),
-      body: Column(
-        children: [
-          StreamBuilder(
-              stream: FirebaseFunction.getCollection()
-                  .orderBy(MessageModel.createAt)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var messageList =
-                      snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
-                  return Expanded(
+    return StreamBuilder(
+        stream: FirebaseFunction.getCollection()
+            .orderBy(MessageModel.createAt, descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var messageList =
+                snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
+            return Scaffold(
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                centerTitle: true,
+                backgroundColor: kPrimaryColor,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      kLogo,
+                      height: 35,
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    const Text('Chat')
+                  ],
+                ),
+                actions: [
+                  IconButton(
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        // ignore: use_build_context_synchronously
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      },
+                      icon: const Icon(Icons.logout))
+                ],
+              ),
+              body: Column(
+                children: [
+                  Expanded(
                     child: ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 0),
+                      reverse: true,
+                      controller: _controller,
                       itemBuilder: (context, index) => ChatBuble(
                         messageModel: messageList[index],
                       ),
                       itemCount: messageList.length,
                     ),
-                  );
-                } else {
-                  return Text('worning');
-                }
-              }),
-          TextFieldInChat(
-              controller: controller,
-              onSubmitted: (data) {
-                MessageModel messageModel = MessageModel(message: data);
-                FirebaseFunction.addmessage(messageModel);
-                controller.clear();
-              }),
-        ],
-      ),
-    );
+                  ),
+                  TextFieldInChat(
+                      controller: controller,
+                      onSubmitted: (data) {
+                        MessageModel messageModel = MessageModel(message: data);
+                        FirebaseFunction.addmessage(messageModel);
+                        controller.clear();
+                        _controller.animateTo(
+                          0,
+                          curve: Curves.easeIn,
+                          duration: const Duration(milliseconds: 500),
+                        );
+                      }),
+                ],
+              ),
+            );
+          } else {
+            return Text('worng');
+          }
+        });
   }
 }

@@ -9,7 +9,7 @@ class TextFieldInChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.only(left: 16,right: 16,bottom: 16,top: 6),
             child: TextField(
               controller: controller,
               onSubmitted: onSubmitted,
