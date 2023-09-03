@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
    
-    initialRoute: LoginScreen.routeName,
+   initialRoute:FirebaseAuth.instance.currentUser == null? LoginScreen.routeName : ChatScreeen.routeName,      
     routes: {
       LoginScreen.routeName :(context) => const LoginScreen(),
       SignUp.routeName:(context) => SignUp(),

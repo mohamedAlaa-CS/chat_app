@@ -105,7 +105,7 @@ class _SignUpState extends State<SignUp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "dont't have n account ",
+                      "have an account ",
                       style: TextStyle(color: Colors.white, fontSize: 17),
                     ),
                     customTextBottom(
