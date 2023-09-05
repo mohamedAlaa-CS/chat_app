@@ -16,7 +16,7 @@ class ChatScreeen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = TextEditingController();
- var email = ModalRoute.of(context)!.settings.arguments as String;
+ var email =FirebaseAuth.instance.currentUser?.email ?? ModalRoute.of(context)!.settings.arguments  as String ;
     return StreamBuilder(
         stream: FirebaseFunction.getCollection()
             .orderBy(MessageModel.createAt, descending: true)
@@ -53,36 +53,47 @@ class ChatScreeen extends StatelessWidget {
                       icon: const Icon(Icons.logout))
                 ],
               ),
-              body: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.only(bottom: 0),
-                      reverse: true,
-                      controller: _controller,
-                      itemBuilder: (context, index) {
-                        return messageList[index].email == email? ChatBuble(messageModel:messageList[index] ) :ChatBubleForFrind(messageModel: messageList[index]) ;
-                      },
-                      itemCount: messageList.length,
+              body: Container(
+                decoration:const BoxDecoration(
+                image: DecorationImage(image: AssetImage('assets/images/background.png'),fit:BoxFit.fill )
+              ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.only(bottom: 0),
+                        reverse: true,
+                        controller: _controller,
+                        itemBuilder: (context, index) {
+                          return messageList[index].email == email? ChatBuble(messageModel:messageList[index] ) :ChatBubleForFrind(messageModel: messageList[index]) ;
+                        },
+                        itemCount: messageList.length,
+                      ),
                     ),
-                  ),
-                  TextFieldInChat(
-                      controller: controller,
-                      onSubmitted: (data) {
-                        MessageModel messageModel = MessageModel(message: data, email: email);
-                        FirebaseFunction.addmessage(messageModel);
-                        controller.clear();
-                        _controller.animateTo(
-                          0,
-                          curve: Curves.easeIn,
-                          duration: const Duration(milliseconds: 500),
-                        );
-                      }),
-                ],
+                    TextFieldInChat(
+                        controller: controller,
+                        onSubmitted: (data) {
+                          MessageModel messageModel = MessageModel(message: data, email: email );
+                          FirebaseFunction.addmessage(messageModel);
+                          controller.clear();
+                          _controller.animateTo(
+                            0,
+                            curve: Curves.easeIn,
+                            duration: const Duration(milliseconds: 500),
+                          );
+                        }),
+                  ],
+                ),
               ),
             );
           } else {
-            return Text('worng');
+            return Scaffold(
+              body: Container(
+                 decoration:const BoxDecoration(
+                  image: DecorationImage(image: AssetImage('assets/images/background.png'),fit:BoxFit.fill )
+                ),
+                child:  Center(child: CircularProgressIndicator())),
+            );
           }
         });
   }

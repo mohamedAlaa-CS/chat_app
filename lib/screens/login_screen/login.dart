@@ -71,7 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 defaultTextField(hitText: 'Email', controller: emailController),
                 const SizedBox(height: 15),
                 defaultTextField(
-                    hitText: 'Password', controller: passwordController),
+                    hitText: 'Password', controller: passwordController,
+                    obscureText: true
+                    ),
                 const SizedBox(height: 30),
                 customBottom(
                     title: 'Login',
@@ -138,5 +140,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text, password: passwordController.text);
     print('Done ya man');
+    print(credential.user!.email);
   }
 }

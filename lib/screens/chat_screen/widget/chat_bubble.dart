@@ -9,6 +9,7 @@ class ChatBuble extends StatelessWidget {
     required this.messageModel,
   });
   final MessageModel messageModel;
+//var time = TimeOfDay.fromDateTime(DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +25,29 @@ class ChatBuble extends StatelessWidget {
                 bottomRight: Radius.circular(32),
                 topLeft: Radius.circular(32),
                 topRight: Radius.circular(32)),),
-        child: Text(
-          messageModel.message!,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
+        child: Column(
+          children: [
+            Text(
+              messageModel.message!,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          //    Text(
+          // //  ' ${DateFormat.jm().format(messageModel.createdAt!)}',
+          //  // '${messageModel.createdAt.hour.toString()}:${messageModel.createdAt.minute.toString()}:${messageModel.createdAt.second}',
+          //    messageModel.createdAt.toString(),
+          //     style: const TextStyle(
+          //       color: Colors.white,
+          //       fontSize: 16,
+          //       fontWeight: FontWeight.w500,
+          //     ),
+          //   ),
+          ],
         ),
+        
       ),
     );
   }
@@ -61,13 +77,25 @@ class ChatBubleForFrind extends StatelessWidget {
                 ),
                 
                 ),
-        child: Text(
-          messageModel.message!,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
+        child: Column(
+          children: [
+            Text(
+              messageModel.message!,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            // Text(
+            //   messageModel.createdAt as String,
+            //   style: const TextStyle(
+            //     color: Colors.white,
+            //     fontSize: 16,
+            //     fontWeight: FontWeight.w500,
+            //   ),
+            // ),
+          ],
         ),
       ),
     );

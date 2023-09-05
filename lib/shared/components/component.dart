@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 Widget defaultTextField(
-    {required String hitText, TextEditingController? controller}) {
+    {required String hitText, TextEditingController? controller,bool obscureText = false,   }) {
   return TextFormField(
     validator: (data) {
       if (data!.isEmpty) {
         return 'field is required';
       }
     },
-    //keyboardType: TextInputType.text,
+   // obscureText:obscureText ,
     controller: controller,
     style: const TextStyle(
         color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
     decoration: InputDecoration(
+   
       focusColor: Colors.white,
       hintText: hitText,
       hintStyle: const TextStyle(color: Colors.white),

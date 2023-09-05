@@ -18,6 +18,6 @@ class FirebaseFunction {
   }
 
   static Future<QuerySnapshot<MessageModel>> getMessage() {
-    return getCollection().get();
+    return getCollection().orderBy('createdAt').get();
   }
 }

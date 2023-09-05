@@ -33,9 +33,7 @@ class _MyAppState extends State<MyApp> {
     if (user == null) {
       print('------------------User is currently signed out!');
     } else {
-      print('------------------User is signed in!');
-      print(user);
-    }
+      print('------------------User is signed in!');    }
   });
 
     super.initState();
