@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           await loginUser(emailController, passwordController);
             
                           // ignore: use_build_context_synchronously
-                          Navigator.pushNamed(context, ChatScreeen.routeName);
+                          Navigator.pushNamed(context, ChatScreeen.routeName, arguments:emailController.text );
                           print('Done ya man');
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'user-not-found') {
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "don't have n account ",
+                      "don  't have n account ",
                       style: TextStyle(color: Colors.white, fontSize: 17),
                     ),
                     customTextBottom(

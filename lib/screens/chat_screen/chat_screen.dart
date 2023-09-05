@@ -16,7 +16,7 @@ class ChatScreeen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var controller = TextEditingController();
-
+ var email = ModalRoute.of(context)!.settings.arguments as String;
     return StreamBuilder(
         stream: FirebaseFunction.getCollection()
             .orderBy(MessageModel.createAt, descending: true)
@@ -60,16 +60,16 @@ class ChatScreeen extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 0),
                       reverse: true,
                       controller: _controller,
-                      itemBuilder: (context, index) => ChatBuble(
-                        messageModel: messageList[index],
-                      ),
+                      itemBuilder: (context, index) {
+                        return messageList[index].email == email? ChatBuble(messageModel:messageList[index] ) :ChatBubleForFrind(messageModel: messageList[index]) ;
+                      },
                       itemCount: messageList.length,
                     ),
                   ),
                   TextFieldInChat(
                       controller: controller,
                       onSubmitted: (data) {
-                        MessageModel messageModel = MessageModel(message: data);
+                        MessageModel messageModel = MessageModel(message: data, email: email);
                         FirebaseFunction.addmessage(messageModel);
                         controller.clear();
                         _controller.animateTo(
