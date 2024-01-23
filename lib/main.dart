@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:social_app/screens/FCM/fcm.dart';
 import 'package:social_app/screens/chat_screen/chat_screen.dart';
 import 'package:social_app/screens/sign_up/sign_up.dart';
+
 import 'firebase_options.dart';
 import 'screens/login_screen/login.dart';
 
@@ -13,7 +14,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  Fcm fcm = Fcm();
+  fcm.getToken();
+  fcm.fcmMessage();
   runApp(const MyApp());
 }
 
@@ -26,30 +29,31 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-    void initState() {
-    FirebaseAuth.instance
-  .authStateChanges()
-  .listen((User? user) {
-    if (user == null) {
-      print('------------------User is currently signed out!');
-    } else {
-      print('------------------User is signed in!');    }
-  });
+  void initState() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('------------------User is currently signed out!');
+      } else {
+        print('------------------User is signed in!');
+      }
+    });
 
     super.initState();
   }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-   
-   initialRoute:FirebaseAuth.instance.currentUser == null? LoginScreen.routeName : ChatScreeen.routeName,      
-    routes: {
-      LoginScreen.routeName :(context) => const LoginScreen(),
-      SignUp.routeName:(context) => SignUp(),
-      ChatScreeen.routeName:(context) => ChatScreeen()
-    },
+      initialRoute: FirebaseAuth.instance.currentUser == null
+          ? LoginScreen.routeName
+          : ChatScreeen.routeName,
+      routes: {
+        LoginScreen.routeName: (context) => const LoginScreen(),
+        SignUp.routeName: (context) => SignUp(),
+        ChatScreeen.routeName: (context) => ChatScreeen()
+      },
     );
   }
 }
