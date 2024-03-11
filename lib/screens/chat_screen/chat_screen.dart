@@ -1,17 +1,27 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:social_app/functions/upload_image.dart';
 import 'package:social_app/models/message_model.dart';
 import 'package:social_app/screens/login_screen/login.dart';
 import 'package:social_app/shared/constants/constants.dart';
 import 'package:social_app/shared/firebase/firebase_function.dart';
+
 import 'widget/chat_bubble.dart';
 import 'widget/text_field.dart';
 
-class ChatScreeen extends StatelessWidget {
+class ChatScreeen extends StatefulWidget {
   static const String routeName = 'chat_screen';
-  final ScrollController _controller = ScrollController();
 
-  ChatScreeen({super.key});
+  const ChatScreeen({super.key});
+
+  @override
+  State<ChatScreeen> createState() => _ChatScreeenState();
+}
+
+class _ChatScreeenState extends State<ChatScreeen> {
+  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -75,21 +85,71 @@ class ChatScreeen extends StatelessWidget {
                         itemCount: messageList.length,
                       ),
                     ),
-                    TextFieldInChat(
-                      controller: controller,
-                      onSubmitted: (data) {
-                        MessageModel messageModel =
-                            MessageModel(message: data, email: email);
-                        FirebaseFunction.addmessage(messageModel);
-                        controller.clear();
-                        _controller.animateTo(
-                          0,
-                          curve: Curves.easeIn,
-                          duration: const Duration(milliseconds: 500),
-                        );
-                      },
-                      email: email,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: TextFieldInChat(
+                            controller: controller,
+                            onSubmitted: (data) {
+                              if (data.isNotEmpty) {
+                                MessageModel messageModel =
+                                    MessageModel(message: data, email: email);
+                                FirebaseFunction.addmessage(messageModel);
+                                controller.clear();
+                                _controller.animateTo(
+                                  0,
+                                  curve: Curves.easeIn,
+                                  duration: const Duration(milliseconds: 500),
+                                );
+                              }
+                            },
+                            email: email,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            await uploadImage();
+
+                            if (imageUrl != null) {
+                              log('=============================');
+                              MessageModel messageModel =
+                                  MessageModel(image: imageUrl, email: email);
+                              FirebaseFunction.addmessage(messageModel);
+
+                              _controller.animateTo(
+                                0,
+                                curve: Curves.easeIn,
+                                duration: const Duration(milliseconds: 500),
+                              );
+                            }
+                            setState(() {});
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.image_outlined,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        )
+                      ],
                     ),
+                    // if (file != null) ...{
+                    //   Image.network(
+                    //     imageUrl!,
+                    //     height: 100,
+                    //   )
+                    // }
                   ],
                 ),
               ),
@@ -101,7 +161,7 @@ class ChatScreeen extends StatelessWidget {
                       image: DecorationImage(
                           image: AssetImage('assets/images/background.png'),
                           fit: BoxFit.fill)),
-                  child: Center(child: CircularProgressIndicator())),
+                  child: const Center(child: CircularProgressIndicator())),
             );
           }
         });

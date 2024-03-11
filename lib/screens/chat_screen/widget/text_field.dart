@@ -26,10 +26,12 @@ class TextFieldInChat extends StatelessWidget {
           hintStyle: const TextStyle(color: Colors.white),
           suffixIcon: InkWell(
             onTap: () {
-              MessageModel messageModel =
-                  MessageModel(message: controller.text, email: email);
-              FirebaseFunction.addmessage(messageModel);
-              controller.clear();
+              if (controller.text.isNotEmpty && controller.text != '') {
+                MessageModel messageModel =
+                    MessageModel(message: controller.text, email: email);
+                FirebaseFunction.addmessage(messageModel);
+                controller.clear();
+              }
             },
             child: Icon(
               Icons.send,
