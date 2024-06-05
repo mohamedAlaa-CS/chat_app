@@ -16,6 +16,7 @@ void main() async {
   );
   Fcm fcm = Fcm();
   fcm.getToken();
+  print(fcm.getToken());
   fcm.fcmMessage();
   runApp(const MyApp());
 }
